@@ -56,11 +56,14 @@ export const NavRight = styled.nav`
         font-size: 24px;
         margin-left: 20px;
         transition: all .3s;
+        cursor: pointer;
         &:hover{
-            color:${props => theme.palette['primaryHover']} !important;
+            color:#410000 !important;
+
         }
         &:link{
             font-weight: 900;
+            
         }
 
     }

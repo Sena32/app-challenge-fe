@@ -1,21 +1,16 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { Alert, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import BreadCrumb from '../../../components/BreadCrumb';
-import Button from '../../../components/Button';
-import InputCustom from '../../../components/Input';
-import { Spinner } from '../../../components/Spinner/styles';
 import SubHeader from '../../../components/SubHeader';
-// import api from '../../../services/api';
+import { SubmissionError } from "redux-form";
 import { ApplicationState } from '../../../store';
-import { Client } from '../../../store/ducks/clients/types';
 import { createRequest, updateRequest } from '../../../store/ducks/clients/actions';
-import { Alert, Card, Col, Container, Row } from 'react-bootstrap';
+import { Client } from '../../../store/ducks/clients/types';
 import CreateForm from '../components/CreateForm';
-import { HeadBarTitle, Title } from './styles';
-// import { CardWrapper, Container } from './styles';
+import validate from '../components/CreateForm/validate';
 
 interface ParamTypes {
   id: string;
@@ -29,66 +24,12 @@ const Create: React.FC = () => {
   const [close, setClose] = useState(false)
   const nav = useHistory();
 
-      
-  // const formik = useFormik({
-  //   initialValues: {
-  //     name: id? clientSelected.name: '',
-  //     phone: id? clientSelected.phone: '',
-  //     // description: id? clientSelected.description: ''
-  //   },
-
-  //   onSubmit: async values => {
-
-  //     if(id){
-  //       const data = {
-  //         id: clientSelected.id,
-  //         name: values.name,
-  //         phone:values.phone, 
-          
-  //       }
-  //       formik.setSubmitting(true);
-  //       dispatch(updateRequest(data as Client))
-  //       formik.setSubmitting(false);
-  //       nav.push('/app/books')
-  //     }else{
-  //       const data = {
-  //         name: values.name,
-  //         phone:values.phone, 
-  //       }
-  //       formik.setSubmitting(true);
-  //       dispatch(createRequest(data as Client))
-  //       formik.setSubmitting(false);
-  //       nav.push('/app/clients')
-  //     }
-
-
-  //   },
-  //   validate: values => {
-      
-  //     const errors: any = {};
-
-  //     // if (!values.description || values.description.trim()==='' ) {
-  //     //   errors.description = '*Campo descrição vazio ou inválido';
-  //     // }
-
-  //     if (!(values.name)) {
-  //       errors.name = '*Campo nome vazio ou inválido';
-  //     }
-
-  //     else if (!(values.phone)) {
-  //       errors.phone = '*Campo autor vazio ou inválido';
-  //     }
-
-  //     return errors;
-  //   },
-  // });
-
   const onSubmit = data => {
-		// const errors = validate(data);
+		const errors = validate(data);
 
-		// if (Object.keys(errors).length > 0) {
-		// 	throw new SubmissionError(errors);
-		// }
+		if (Object.keys(errors).length > 0) {
+			throw new SubmissionError(errors);
+		}
 
     const values = {
       name: data.name,

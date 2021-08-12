@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, ButtonToolbar, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { Field, reduxForm } from "redux-form";
-// import Button from "../../../../components/Button";
-import InputCustom from "../../../../components/Input";
 import Map from "../../../../components/Map";
 import { CEP, PHONE } from "../../../../components/NumberFormat";
 import Input from "../../../../components/ReduxForm/Input";
-import InputNumber from "../../../../components/ReduxForm/InputNumber";
-import api from "../../../../services/api";
+import validate from "./validate";
 // import Input from "../../../../components/ReduxForm/Input";
-import { CardWrapper, HeadBarTitle, Title, ButtonContainer } from "./styles";
+import { ButtonContainer, CardWrapper, HeadBarTitle, Title } from "./styles";
 // import Input from "../../../components/ReduxForm/Input";
 
 const CreateForm = ({
@@ -30,7 +27,6 @@ const CreateForm = ({
 			fetch(`https://viacep.com.br/ws/${zipCode}/json/`)
 				.then(res => res.json())
 				.then(json => {
-					console.log(json)
 					if (json) {
 						props.change("address", json.logradouro);
 						props.change("city", json.localidade);
@@ -55,7 +51,6 @@ const getLocation = async (code)=>{
 useEffect(()=>{
 	if(zipCodee.length===8){
 		const location = getLocation(zipCodee)
-		console.log(location)
 		setLocalization(location)
 	}
 },[zipCodee])
@@ -191,5 +186,5 @@ useEffect(()=>{
 
 export default reduxForm({
 	form: "client_create",
-	// validate
+	validate
 })(CreateForm);

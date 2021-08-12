@@ -9,7 +9,7 @@ const Input = ({
 	disabled,
 	meta: { touched, error }
 }) => (
-	<div className="input-group flex-nowrap">
+	<div className="flex-nowrap" >
 		<input
 			{...input}
 			placeholder={placeholder}

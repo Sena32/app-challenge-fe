@@ -1,5 +1,3 @@
-import Axios from 'axios';
-import axios from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
 import { Redirect } from 'react-router';
 import { Container, Spinner } from '../components/Spinner/styles';
@@ -29,7 +27,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     const [status, setStatus] = useState({});
 
     const verifyToken = async(token)=>{
-      console.log(token)
       api.post('/token/verify', {
         token
       }).then((resp)=>{
@@ -39,13 +36,11 @@ export const AuthProvider: React.FC = ({ children }) => {
 
       })
     }
-    console.log(status)
     useEffect(() => {
       if (!status) {
         signOut()
 
       }
-      // eslint-disable-next-line eqeqeq
 
     }, []);
 
@@ -57,7 +52,6 @@ export const AuthProvider: React.FC = ({ children }) => {
         setUser(JSON.parse(storagedUser));
         verifyToken(storagedToken)
       }
-      // eslint-disable-next-line eqeqeq
 
     }, []);
 
@@ -65,7 +59,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     async function signIn(user: User) {
         try {
         setLoading(true)
-        // const response = await auth.signIn({email: user.email, password: user.password});
         const response = await api.post('token/', {
           username: user.name,
           password: user.password
@@ -76,7 +69,6 @@ export const AuthProvider: React.FC = ({ children }) => {
         setLoading(false)
         return <Redirect to='/app'  />
         } catch (error) {
-          console.log(error);
           setLoading(false)
           return <Redirect to='/'  />
         }

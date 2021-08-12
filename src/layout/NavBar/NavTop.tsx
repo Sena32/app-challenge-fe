@@ -16,10 +16,10 @@ const NavTop: React.FC = () =>{
         <Container>
         
         <Navtop>
-            <Brand ><Link to="/app">Bookstore</Link></Brand>
+            <Brand ><Link to="/app">Challenge</Link></Brand>
             <NavRight>
-                <p>{name}</p>
-                <a><FaSignOutAlt onClick={()=>signOut()}/></a>
+                {/* <p>{name}</p> */}
+                <a onClick={()=>signOut()}><FaSignOutAlt /> Logout</a>
             </NavRight>
         </Navtop>
         </Container>
