@@ -45,6 +45,7 @@ yarn start
 
 ```ts
     //Cadastrar usuário para usar a aplicação
+    LEMBRAR DE ALTERAR AS URLS NO ARQUIVO ENV
 ```
 
 <br />
