@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react';
 import { FaLock, FaLockOpen } from 'react-icons/fa';
 import { useHistory } from 'react-router';
 import Button from '../../components/Button';
+import FbBtn from '../../components/FbBtn';
 import InputCustom from '../../components/Input';
 import Input from '../../components/Input';
 import { Spinner } from '../../components/Spinner/styles';
@@ -74,6 +75,7 @@ const Login: React.FC = () => {
       <Button className='btnDanger' color='primary' disabled={!(formik.isValid && formik.dirty && !formik.isSubmitting)}>
         {formik.isSubmitting ? <Spinner /> : 'Login'}
       </Button>
+      <FbBtn/>
       </form>
       <h5 onClick={()=>nav.push('/Account')}>Criar Usuário</h5>
      </Container>

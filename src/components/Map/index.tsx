@@ -8,11 +8,12 @@ interface Local {
     lat?: string,
     lng?: string,
 }
+
 export default function Map({lat, lng}:Local){
     const defaultProps = {
       center: {
-        lat: -7.1892632,
-        lng: -34.8755007
+        lat: lat ,
+        lng: lng
       },
       zoom: 15
     };

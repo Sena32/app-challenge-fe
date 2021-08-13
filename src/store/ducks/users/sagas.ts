@@ -20,11 +20,13 @@ export function* createUser(action:AnyAction) {
     
     const response = yield call(api.post, `register/`,action.payload.data);
     console.log(response)
-    yield put(createSuccess(response.data));
-    if(!response || response == undefined){
+    if(!response || response === undefined){
       yield put(createFailure());
-
+      console.log('error')
+      return
     }
+    yield put(createSuccess(response.data));
+
   } catch (err) {
     yield put(createFailure());
   }

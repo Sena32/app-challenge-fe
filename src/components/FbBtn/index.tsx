@@ -9,7 +9,7 @@ class FbBtn extends React.Component {
   render() {
     return (
       <FacebookLogin
-        appId="1088597931155576"
+        appId="EAADdplf6sZCwBAHEnl2tXMVuLzEvK1af2jJsZB7jYDSNCUjYF7Q64ZAHd98AVqb1biPZCk7POnJbDQBIFRVJTUfxDfjnI5MZCUvSDZCt3UqLmsj420JC3bvHKxfOiDNvfGcZB2UvDWKZC5etdLltniP3xclZCPavZAaqJZCO3Egn6HcAuiHSmAVWIex"
         autoLoad={true}
         fields="name,email,picture"
         scope="public_profile,user_friends,user_actions.books"

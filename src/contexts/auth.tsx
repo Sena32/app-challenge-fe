@@ -50,6 +50,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   
       if (storagedToken && storagedUser) {
         setUser(JSON.parse(storagedUser));
+        signOut()
         verifyToken(storagedToken)
       }
 

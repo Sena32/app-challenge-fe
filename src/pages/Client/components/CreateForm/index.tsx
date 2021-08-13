@@ -7,6 +7,7 @@ import Input from "../../../../components/ReduxForm/Input";
 import validate from "./validate";
 // import Input from "../../../../components/ReduxForm/Input";
 import { ButtonContainer, CardWrapper, HeadBarTitle, Title } from "./styles";
+import Axios from "axios";
 // import Input from "../../../components/ReduxForm/Input";
 
 const CreateForm = ({
@@ -18,7 +19,7 @@ const CreateForm = ({
 }) => {
     const [zipCodeLoading, setZipCodeLoading] = useState(false);
     const [zipCodee, setZipCode] = useState('');
-    const [localization, setLocalization] = useState({});
+    const [localization, setLocalization] = useState({} as {lat:any, lng: any});
 
 	const handleZipCodeChange = zipCode => {
 		if (zipCode && zipCode.length === 8) {
@@ -45,17 +46,21 @@ const CreateForm = ({
 	};
 const getLocation =  (code)=>{
 	let response;
-	fetch(`https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${code}&key=AIzaSyAO2prDBMuQLK97HIqojo2NlaAQ-s2zBBk`)
-	.then(resp=>{
-		response =  resp;
-	})
+
 	return response
 }
 
 useEffect(()=>{
 	if(zipCodee.length===8){
-		const location = getLocation(zipCodee)
-		setLocalization(location)
+		// fetch(`https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${zipCodee}&key=AIzaSyAO2prDBMuQLK97HIqojo2NlaAQ-s2zBBk`)
+		// .then(resp=>{
+		// 	setLocalization(resp.json)
+		// })
+		const getData = async()=>{
+			const response = await Axios.get(`https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${zipCodee}&key=AIzaSyAO2prDBMuQLK97HIqojo2NlaAQ-s2zBBk`)
+			setLocalization(response.data.results[0].geometry.location)
+		}
+		getData();
 	}
 },[zipCodee])
 	console.log(localization)
@@ -183,7 +188,7 @@ useEffect(()=>{
 			</ButtonContainer>
             
 		</form>
-		<Map />
+		<Map lat={localization.lat} lng={localization.lng} />
         </CardWrapper>
 	);
 };
