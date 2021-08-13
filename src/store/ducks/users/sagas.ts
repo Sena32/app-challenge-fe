@@ -18,9 +18,13 @@ export function* load() {
 export function* createUser(action:AnyAction) {
   try {
     
-    yield call(api.post, `users/`,action.payload.data);
-    const response = yield call(api.get, 'users/');
+    const response = yield call(api.post, `register/`,action.payload.data);
+    console.log(response)
     yield put(createSuccess(response.data));
+    if(!response || response == undefined){
+      yield put(createFailure());
+
+    }
   } catch (err) {
     yield put(createFailure());
   }

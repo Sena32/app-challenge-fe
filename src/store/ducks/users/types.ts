@@ -32,7 +32,8 @@ export interface User {
   id: string,
   username: string,
   email: string,
-  password:string
+  password:string,
+  password2:string
 }
 
 /**

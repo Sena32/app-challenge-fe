@@ -34,8 +34,9 @@ export function* createClient(action:AnyAction) {
 
 
 export function* updateClient(action:AnyAction) {
+
   try {
-    yield call(api.put, `clients/${action.payload.data.id}`,action.payload.data);
+    yield call(api.put, `clients/${action.payload.data.id}/`,action.payload.data);
     const response = yield call(api.get, 'clients/');
     yield put(updateSuccess(response.data));
   } catch (err) {

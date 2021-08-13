@@ -60,8 +60,8 @@ const Login: React.FC = () => {
        <h1>Login</h1>
       <form onSubmit={formik.handleSubmit} autoComplete="off">
       {/* <InputCustom name='email' label="Email" type='email' value={formik.values.email} onChange={formik.handleChange} helperText={formik.errors.email } error={Boolean(formik.errors.email)}/> */}
-      <InputCustom name='name' label="Nome" type='text' value={formik.values.name} onChange={formik.handleChange} helperText={formik.errors.name } error={Boolean(formik.errors.name)}/>
-      <InputCustom name='password' value={formik.values.password} label='Senha' type={type} onChange={formik.handleChange} helperText={formik.errors.password} error={Boolean(formik.errors.password)} InputProps={{
+      <Input name='name' label="Nome" type='text' value={formik.values.name} onChange={formik.handleChange} helperText={formik.errors.name } error={Boolean(formik.errors.name)}/>
+      <Input name='password' value={formik.values.password} label='Senha' type={type} onChange={formik.handleChange} helperText={formik.errors.password} error={Boolean(formik.errors.password)} InputProps={{
           endAdornment: (
             <InputAdornment position="start">
             {type==='text'? <FaLockOpen onClick={()=>setType('password')} />: (

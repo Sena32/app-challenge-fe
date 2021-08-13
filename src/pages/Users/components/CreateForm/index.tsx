@@ -8,7 +8,7 @@ import Input from "../../../../components/ReduxForm/Input";
 import InputNumber from "../../../../components/ReduxForm/InputNumber";
 // import Input from "../../../../components/ReduxForm/Input";
 import { CardWrapper, HeadBarTitle, Title, ButtonContainer } from "./styles";
-// import Input from "../../../components/ReduxForm/Input";
+import validate from "./validate";
 
 const CreateForm = ({
 	handleSubmit,
@@ -38,7 +38,7 @@ const CreateForm = ({
 					</Col>
 
                     <Col xs={12} sm={12} md={12} lg={12} className="form__form-group">
-						<span className="form__form-group-label">Telefone</span>
+						<span className="form__form-group-label">Email</span>
 						<div className="form__form-group-field">
 							<Field
 								name="email"
@@ -55,6 +55,18 @@ const CreateForm = ({
 								name="password"
 								component={Input}
 								type="password"
+								placeholder="12345678a#"
+							/>
+						</div>
+					</Col>
+					<Col xs={12} sm={12} md={12} lg={12} className="form__form-group">
+						<span className="form__form-group-label">Repete a Senha</span>
+						<div className="form__form-group-field">
+							<Field
+								name="password2"
+								component={Input}
+								type="password"
+								placeholder="12345678a#"
 							/>
 						</div>
 					</Col>
@@ -83,6 +95,6 @@ const CreateForm = ({
 };
 
 export default reduxForm({
-	form: "client_create",
-	// validate
+	form: "user_create",
+	validate
 })(CreateForm);

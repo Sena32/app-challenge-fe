@@ -28,19 +28,19 @@ export enum ClientsTypes {
  * Data types
  */
 export interface Address {
-  id: string,
-  address: string,
-  number: number,
-  city: string,
-  state: string,
-  country: string,
-  zipCode: string,
+  id: any,
+  address: any,
+  number: any,
+  city: any,
+  state: any,
+  country: any,
+  zipCode: any,
 }
 
 export interface Client {
-  id: string,
-  name: string,
-  phone: string,
+  id: any,
+  name: any,
+  phone: any,
   address: Address,
 }
 

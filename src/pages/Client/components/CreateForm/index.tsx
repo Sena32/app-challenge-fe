@@ -43,9 +43,13 @@ const CreateForm = ({
 				});
 		}
 	};
-const getLocation = async (code)=>{
-	const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${code}&key=AIzaSyAO2prDBMuQLK97HIqojo2NlaAQ-s2zBBk`)
-	return response;
+const getLocation =  (code)=>{
+	let response;
+	fetch(`https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${code}&key=AIzaSyAO2prDBMuQLK97HIqojo2NlaAQ-s2zBBk`)
+	.then(resp=>{
+		response =  resp;
+	})
+	return response
 }
 
 useEffect(()=>{
@@ -54,7 +58,7 @@ useEffect(()=>{
 		setLocalization(location)
 	}
 },[zipCodee])
-	
+	console.log(localization)
 	return (
         <CardWrapper>
         <HeadBarTitle >

@@ -1,19 +1,15 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { Alert, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router';
-import BreadCrumb from '../../../components/BreadCrumb';
-import Button from '../../../components/Button';
-import InputCustom from '../../../components/Input';
-import { Spinner } from '../../../components/Spinner/styles';
-import SubHeader from '../../../components/SubHeader';
+import { useHistory } from 'react-router';
+import { SubmissionError } from 'redux-form';
 // import api from '../../../services/api';
 import { ApplicationState } from '../../../store';
-import { User } from '../../../store/ducks/users/types';
 import { createRequest } from '../../../store/ducks/users/actions';
-import { Alert, Card, Col, Container, Row } from 'react-bootstrap';
+import { User } from '../../../store/ducks/users/types';
 import CreateForm from '../components/CreateForm';
+import validate from '../components/CreateForm/validate';
 
 interface Message {
   code: string,
@@ -27,16 +23,17 @@ const Create: React.FC = () => {
   const nav = useHistory();
 
   const onSubmit = data => {
-		// const errors = validate(data);
+		const errors = validate(data);
 
-		// if (Object.keys(errors).length > 0) {
-		// 	throw new SubmissionError(errors);
-		// }
+		if (Object.keys(errors).length > 0) {
+			throw new SubmissionError(errors);
+		}
 
     const values = {
       username: data.name,
       email:data.email,
-      password:data.password
+      password:data.password,
+      password2:data.password2
     }
 
       dispatch(createRequest(values as User))

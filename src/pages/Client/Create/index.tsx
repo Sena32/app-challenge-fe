@@ -33,18 +33,33 @@ const Create: React.FC = () => {
 
     const values = {
       name: data.name,
-      phone:data.phone.match(/\d/g).join(""),
+      phone:String(data.phone).match(/\d/g).join(""),
       address: {
         address:data.address, 
-        number:data.number.match(/\d/g).join(""), 
+        number:String(data.number).match(/\d/g).join(""), 
         city:data.city, 
         state:data.state, 
         country:data.country, 
-        zipCode:data.zipCode.match(/\d/g).join(""), 
+        zipCode:String(data.zipCode).match(/\d/g).join(""), 
       } 
 
     }
     if(id){
+      const values = {
+        id,
+        name: data.name,
+        phone:String(data.phone).match(/\d/g).join(""),
+        address: {
+          id: clientSelected.address.id,
+          address:data.address, 
+          number:String(data.number).match(/\d/g).join(""), 
+          city:data.city, 
+          state:data.state, 
+          country:data.country, 
+          zipCode:String(data.zipCode).match(/\d/g).join(""), 
+        } 
+  
+      }
       dispatch(updateRequest(values as Client))
     }else{
       dispatch(createRequest(values as Client))
