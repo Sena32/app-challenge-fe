@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Alert, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { SubmissionError } from 'redux-form';
+import AuthContext from '../../../contexts/auth';
 // import api from '../../../services/api';
 import { ApplicationState } from '../../../store';
 import { createRequest } from '../../../store/ducks/users/actions';
@@ -20,6 +21,7 @@ const Create: React.FC = () => {
   const { loading, error} = useSelector((state: ApplicationState) => state.users);
   const [message, setMessage] = useState({} as Message)
   const [close, setClose] = useState(false)
+  const { userFacebook } = useContext(AuthContext);
   const nav = useHistory();
 
   const onSubmit = data => {
@@ -46,19 +48,24 @@ const Create: React.FC = () => {
     }
 
 	};
+  const initialValues = {
+    name: userFacebook.name,
+    email: userFacebook.email
+  }
   
  return (
    <>
 
-    {message && close && (
+    {/* {message && close && (
       <Alert variant={message.code === 'Ok' ? "success":"danger"} onClick={()=>setClose(false)}>{message.message}</Alert>
-    )}
+    )} */}
 
    <Container>
 
       <CreateForm
         onSubmit={onSubmit}
         loading={loading}
+        initialValues={initialValues}
       />
 		</Container>
    </>

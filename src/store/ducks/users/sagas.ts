@@ -28,6 +28,7 @@ export function* createUser(action:AnyAction) {
     yield put(createSuccess(response.data));
 
   } catch (err) {
+    console.log('errrror cacth')
     yield put(createFailure());
   }
 }

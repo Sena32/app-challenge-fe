@@ -1,22 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import FacebookLogin from 'react-facebook-login';
+import { useHistory } from 'react-router';
+import AuthContext, { User } from '../../contexts/auth';
 
-class FbBtn extends React.Component {
-  responseFacebook(response) {
-    console.log(response);
+const FbBtn = ()=> {
+  const { addUserFacebook, userFacebook } = useContext(AuthContext);
+  const nav = useHistory();
+
+  function responseFacebook(response) {
+    const user: User ={
+      name: response.name,
+      email: response.email
+    }
+    addUserFacebook(user)
+    if(response.name){
+      nav.push('/Account')
+    }
   }
 
-  render() {
+
     return (
       <FacebookLogin
-        appId="EAADdplf6sZCwBAHEnl2tXMVuLzEvK1af2jJsZB7jYDSNCUjYF7Q64ZAHd98AVqb1biPZCk7POnJbDQBIFRVJTUfxDfjnI5MZCUvSDZCt3UqLmsj420JC3bvHKxfOiDNvfGcZB2UvDWKZC5etdLltniP3xclZCPavZAaqJZCO3Egn6HcAuiHSmAVWIex"
+        appId="243706510357500"
         autoLoad={true}
         fields="name,email,picture"
-        scope="public_profile,user_friends,user_actions.books"
-        callback={this.responseFacebook}
+        scope="public_profile,user_friends"
+        callback={responseFacebook}
       />
     )
-  }
 }
 
 export default FbBtn;
