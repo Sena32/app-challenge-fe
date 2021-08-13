@@ -21,7 +21,7 @@ const FbBtn = ()=> {
 
     return (
       <FacebookLogin
-        appId="243706510357500"
+        appId={process.env.API_KEY_FACEBOOK || '243706510357500'}
         autoLoad={true}
         fields="name,email,picture"
         scope="public_profile,user_friends"

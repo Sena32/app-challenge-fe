@@ -29,6 +29,14 @@ export const CardWrapper = styled.div`
         flex: 1;
         gap: 10px;
         width: 100%;
+        h5{
+            cursor: pointer;
+            transition: all .3s;
+            margin-top: 40px;
+            align-self: center;
+            &:hover{
+                color: #001;
+        }
     }
 `;
 

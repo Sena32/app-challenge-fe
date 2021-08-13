@@ -1,5 +1,6 @@
 import React from "react";
 import { Button, ButtonToolbar, Col, Container, Row } from "react-bootstrap";
+import { useHistory } from "react-router";
 import { Field, reduxForm } from "redux-form";
 // import Button from "../../../../components/Button";
 import InputCustom from "../../../../components/Input";
@@ -16,6 +17,7 @@ const CreateForm = ({
 	loading,
     initialValues
 }) => {
+	const nav = useHistory()
 
 	return (
         <CardWrapper>
@@ -87,7 +89,9 @@ const CreateForm = ({
 				<Button className="btn btn-outline-secondary" type="button" onClick={reset}>
 					Limpar
 				</Button>
+				
 			</ButtonContainer>
+			<h5 onClick={()=>nav.push('/Login')}>Retornar ao Login</h5>
             
 		</form>
         </CardWrapper>
