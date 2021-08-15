@@ -2,6 +2,9 @@
   Challenge
 </h1>
 
+## 💻 OBSERVAÇÃO
+Eu corrigi alguns erros da aplicação fora do prazo para estudos meus, porém estão na branch Refactor, desde já agradeço a avaliação.
+
 ## 💻 Projeto
 Aplicativo para desafio e estudos.
 
