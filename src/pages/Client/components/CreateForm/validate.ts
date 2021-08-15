@@ -1,10 +1,11 @@
+
 interface Props {
 	name: string,
 	phone: string,
 	address: string,
 	number: string,
-	city: string,
-	state: string,
+	city: any ,
+	state: any ,
 	country: string,
 	zipCode: string,
 }

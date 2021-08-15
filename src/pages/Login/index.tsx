@@ -1,6 +1,7 @@
 import { InputAdornment, TextField } from '@material-ui/core';
 import { useFormik } from 'formik';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, Form } from 'react-bootstrap';
 import { FaLock, FaLockOpen } from 'react-icons/fa';
 import { useHistory } from 'react-router';
 import Button from '../../components/Button';
@@ -10,19 +11,29 @@ import Input from '../../components/Input';
 import { Spinner } from '../../components/Spinner/styles';
 import AuthContext from '../../contexts/auth';
 import { Container, Transition, Wrapper } from './styles';
+import * as yup from 'yup';
+
+const schema = yup.object().shape({
+  name: yup.string().required(),
+  password: yup.string()
+  .min(8)
+  .required('Required'),
+});
 
 const Login: React.FC = () => {
     const {signIn} = useContext(AuthContext);
     const [type, setType] = useState('password')
+    const [close, setClose] = useState(false)
     const nav = useHistory();
     
     const formik = useFormik({
       initialValues: {
-        email: '',
         name: '',
         password: '',
       },
+      validationSchema:schema,
       onSubmit: async values => {
+        
         const user = {
            password:values.password, name: values.name
         }
@@ -38,45 +49,54 @@ const Login: React.FC = () => {
           formik.setSubmitting(false);
         }
       },
-      validate: values => {
-        
-        const errors: any = {};
-  
-        // if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-        //   errors.email = '*Email Invalid';
-        // }
-  
-        if (!(values.password)) {
-          errors.password = '*Required';
-        }
-  
-        return errors;
-      },
     });
+
+    useEffect(()=>{
+      if(!!formik.errors.name || !!formik.errors.password){
+        setClose(true)
+      }
+    },[formik.errors.name, formik.errors.password])
 
  return (
    <Wrapper>
+    {close ? (
+      <Alert onClose={() => setClose(false)} dismissible variant="danger" onClick={()=>setClose(false)}>Ooops Usuário e Senha necessários</Alert>
+    ): ''}
      <Transition>
      <Container>
        <h1>Login</h1>
-      <form onSubmit={formik.handleSubmit} autoComplete="off">
+       
+      <Form onSubmit={formik.handleSubmit} autoComplete="off">
       {/* <InputCustom name='email' label="Email" type='email' value={formik.values.email} onChange={formik.handleChange} helperText={formik.errors.email } error={Boolean(formik.errors.email)}/> */}
-      <Input name='name' label="Nome" type='text' value={formik.values.name} onChange={formik.handleChange} helperText={formik.errors.name } error={Boolean(formik.errors.name)}/>
-      <Input name='password' value={formik.values.password} label='Senha' type={type} onChange={formik.handleChange} helperText={formik.errors.password} error={Boolean(formik.errors.password)} InputProps={{
-          endAdornment: (
-            <InputAdornment position="start">
-            {type==='text'? <FaLockOpen onClick={()=>setType('password')} />: (
-              <FaLock onClick={()=>{setType('text')}}/>
-            )}
-            </InputAdornment>
-          ),
-        }}/>
+      <Input
+        name='name'
+        placeholder="Nome"
+        type='text'
+        value={formik.values.name}
+        onChange={formik.handleChange}
+        field="Nome"
+        tooltip={false}
+      />
+      <Input
+        name='password'
+        value={formik.values.password}
+        placeholder='Senha'
+        type={type}
+        onChange={formik.handleChange}
+        field="Senha"
+        tooltip={false}
+        icon="password"
+      >
+        {type==='text'? <FaLockOpen onClick={()=>setType('password')} />: (
+          <FaLock onClick={()=>{setType('text')}}/>
+        )}
+      </Input>
 
-      <Button className='btnDanger' color='primary' disabled={!(formik.isValid && formik.dirty && !formik.isSubmitting)}>
+      <Button variant='primary' disabled={!(formik.isValid && formik.dirty && !formik.isSubmitting)}>
         {formik.isSubmitting ? <Spinner /> : 'Login'}
       </Button>
       <FbBtn/>
-      </form>
+      </Form>
       <h5 onClick={()=>nav.push('/Account')}>Criar Usuário</h5>
      </Container>
      </Transition>

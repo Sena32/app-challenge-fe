@@ -3,9 +3,11 @@ import { theme } from '../../styles/global';
 
 export const Wrapper = styled.div`
     display: flex;
+    flex-direction: column;
     flex:1;
     align-items: center;
     justify-content: center;
+    margin-top: 20px;
 
 `;
 export const Container = styled.div`
@@ -22,6 +24,9 @@ export const Container = styled.div`
     0px 1px 3px rgba(0, 0, 0, 0.2);
     h1 {
         color: ${props=> theme.palette['primary']};
+    }
+    button{
+      width: 100% !important;
     }
     h5{
       cursor: pointer;

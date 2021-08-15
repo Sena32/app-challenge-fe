@@ -4,10 +4,10 @@ import { useHistory } from 'react-router';
 import AuthContext, { User } from '../../contexts/auth';
 
 const FbBtn = ()=> {
-  const { addUserFacebook, userFacebook } = useContext(AuthContext);
+  const { addUserFacebook } = useContext(AuthContext);
   const nav = useHistory();
 
-  function responseFacebook(response) {
+  function responseFacebook(response: { name: any; email: any; }) {
     const user: User ={
       name: response.name,
       email: response.email
@@ -22,10 +22,12 @@ const FbBtn = ()=> {
     return (
       <FacebookLogin
         appId={process.env.API_KEY_FACEBOOK || '243706510357500'}
-        autoLoad={true}
+        autoLoad={false}
+        textButton= "Login Com Facebook"
+        icon="fa-facebook"
         fields="name,email,picture"
         scope="public_profile,user_friends"
-        callback={responseFacebook}
+        callback={(response: { name: any; email: any; })=>(responseFacebook(response))}
       />
     )
 }

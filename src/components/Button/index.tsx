@@ -3,7 +3,8 @@ import React, { InputHTMLAttributes } from 'react';
 import { ButtonComponent } from './styles';
 
 type ButtonProps = InputHTMLAttributes<HTMLButtonElement>  & {
-  color: PropTypes.Color
+  color?: PropTypes.Color,
+  variant?: string
 };
 
 export type Props = ButtonProps;
@@ -13,6 +14,7 @@ const Button: React.FC<Props> = ({
   children,
   className,
   color,
+  variant,
   onClick,
 }) => {
   return (
@@ -21,6 +23,7 @@ const Button: React.FC<Props> = ({
         color={color}
         onClick={onClick}
         className={className}
+        variant={variant}
       >
         {children}
       </ButtonComponent>

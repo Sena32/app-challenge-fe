@@ -6,7 +6,7 @@ const Marker = ({ text, lat, lng, onClick }) => (
   <Wrapper
     onClick={onClick}
   >
-      {text}
+      <div>{text}</div>
 </Wrapper>
 );
 

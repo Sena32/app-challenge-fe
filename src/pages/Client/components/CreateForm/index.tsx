@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import { Field, reduxForm } from "redux-form";
 import Map from "../../../../components/Map";
 import { CEP, PHONE } from "../../../../components/NumberFormat";
@@ -8,18 +8,31 @@ import validate from "./validate";
 // import Input from "../../../../components/ReduxForm/Input";
 import { ButtonContainer, CardWrapper, HeadBarTitle, Title } from "./styles";
 import Axios from "axios";
+import {ReduxFormSelect} from '../../../../components/ReduxForm/Select/DropDown';
+import Spinner from "../../../../components/Spinner";
+import { useParams } from "react-router";
+import Button from "../../../../components/Button";
 // import Input from "../../../components/ReduxForm/Input";
+
+interface ParamTypes {
+	id: string;
+  }
 
 const CreateForm = ({
 	handleSubmit,
 	reset,
 	loading,
     initialValues,
+	states,
+	selectedState,
+	cities,
+	onChange,
     ...props
 }) => {
     const [zipCodeLoading, setZipCodeLoading] = useState(false);
     const [zipCodee, setZipCode] = useState('');
     const [localization, setLocalization] = useState({} as {lat:any, lng: any});
+	const { id } = useParams<ParamTypes>();
 
 	const handleZipCodeChange = zipCode => {
 		if (zipCode && zipCode.length === 8) {
@@ -30,11 +43,11 @@ const CreateForm = ({
 				.then(json => {
 					if (json) {
 						props.change("address", json.logradouro);
-						props.change("city", json.localidade);
 						props.change(
-							"state", json.uf
-							// states.find(c => c.value === json.uf)
+							"state",states.find(c => c.value === json.uf)
 						);
+						props.change("city", cities.length>0 && cities.find(c => c.label === json.localidade));
+
 					}
 					setZipCodeLoading(false);
 				})
@@ -44,30 +57,29 @@ const CreateForm = ({
 				});
 		}
 	};
-const getLocation =  (code)=>{
-	let response;
-
-	return response
-}
+	const getData = async(code)=>{
+		console.log(code)
+		const response = await Axios.get(`https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${code}&key=AIzaSyAO2prDBMuQLK97HIqojo2NlaAQ-s2zBBk`)
+		setLocalization(response.data.results[0].geometry.location)
+	}
 
 useEffect(()=>{
+	
 	if(zipCodee.length===8){
-		// fetch(`https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${zipCodee}&key=AIzaSyAO2prDBMuQLK97HIqojo2NlaAQ-s2zBBk`)
-		// .then(resp=>{
-		// 	setLocalization(resp.json)
-		// })
-		const getData = async()=>{
-			const response = await Axios.get(`https://maps.googleapis.com/maps/api/geocode/json?components=postal_code:${zipCodee}&key=AIzaSyAO2prDBMuQLK97HIqojo2NlaAQ-s2zBBk`)
-			setLocalization(response.data.results[0].geometry.location)
+	
+		getData(zipCodee);
+	}else{
+		if(id){
+			getData(initialValues.zipCode);
 		}
-		getData();
 	}
-},[zipCodee])
-	console.log(localization)
+	
+	
+},[id, initialValues.zipCode, zipCodee])
 	return (
         <CardWrapper>
         <HeadBarTitle >
-            <Title >Cadastrar cliente</Title>
+            <Title >{id?"Editar cliente" :"Cadastrar cliente"}</Title>
         </HeadBarTitle>
 		<form className="form" onSubmit={handleSubmit}>
 			<Container>
@@ -133,28 +145,35 @@ useEffect(()=>{
 							/>
 						</div>
 					</Col>
+					<Col xs={12} sm={12} md={3} lg={3} className="form__form-group">
+						<span className="form__form-group-label">Estado</span>
+						<div className="form__form-group-field">
+							<Field
+								name="state"
+								component={ReduxFormSelect}
+								defaultValue={initialValues.state}
+								options={states}
+								// onChange={(value)=>onChange(value)}
+								type="text"
+								placeholder="Selecione um Estado"
+							/>
+						</div>
+					</Col>
                     <Col xs={12} sm={12} md={3} lg={3} className="form__form-group">
 						<span className="form__form-group-label">Cidade</span>
 						<div className="form__form-group-field">
 							<Field
 								name="city"
-								component={Input}
+								component={ReduxFormSelect}
+								defaultValue={initialValues.city}
+								disabled={selectedState}
+								options={cities}
 								type="text"
-								placeholder="São Paulo"
+								placeholder={selectedState ? "Selecione o Estado" : "Selecione uma Cidade"}
 							/>
 						</div>
 					</Col>
-                    <Col xs={12} sm={12} md={3} lg={3} className="form__form-group">
-						<span className="form__form-group-label">Estado</span>
-						<div className="form__form-group-field">
-							<Field
-								name="state"
-								component={Input}
-								type="text"
-								placeholder="São Paulo"
-							/>
-						</div>
-					</Col>
+ 
                     <Col xs={12} sm={12} md={6} lg={6} className="form__form-group">
 						<span className="form__form-group-label">País</span>
 						<div className="form__form-group-field">
@@ -167,11 +186,20 @@ useEffect(()=>{
 						</div>
 					</Col>
                     </Row>
+					<Row style={{marginTop: '20px'}}>
+						<Col xs={12} sm={12} md={12} lg={12}>
+							{zipCodeLoading ? (<Spinner/>) : zipCodee ? (
+								<Map lat={localization.lat} lng={localization.lng} />
+							): id && (
+								<Map lat={localization.lat} lng={localization.lng} />
+							)}
+						</Col>
+					</Row>
 					
 				</Row>
 			</Container>
 			<ButtonContainer className="btn-toolbar">
-				<Button className="btn btn-outline-secondary" type="submit" disabled={loading}>
+				<Button color="primary" variant="primary" type="submit" disabled={loading}>
 					{loading ? (
 						<span
 							className="spinner-border spinner-border-sm"
@@ -182,18 +210,18 @@ useEffect(()=>{
 						"Salvar"
 					)}
 				</Button>
-				<Button className="btn btn-outline-secondary" type="button" onClick={reset}>
+				<Button color="secondary" variant="secondary" type="button" onClick={reset}>
 					Limpar
 				</Button>
 			</ButtonContainer>
             
 		</form>
-		<Map lat={localization.lat} lng={localization.lng} />
+		
         </CardWrapper>
 	);
 };
 
 export default reduxForm({
 	form: "client_create",
-	validate
+	// validate
 })(CreateForm);

@@ -14,22 +14,22 @@ export const Crumb = styled.div`
 `;
 
 export const ArrowBack = styled(IoIosArrowBack)`
-  color: #b62619;
+  color: #1950b6;
   margin-right: 5px;
 `;
 
 export const ArrowNext = styled(IoIosArrowBack)`
   margin: 5px;
-  color: #b62619;
+  color: #1950b6;
   transform: rotate(180deg);
 `;
 
 export const LinkItem = styled(Link)`
   text-decoration: none;
-  color: #b62619;
+  color: #1950b6;
   transition: all 0.2s;
   &:hover {
-    color: #850b00;
+    color: #000931;
   }
   &:active {
     color: #bbb;

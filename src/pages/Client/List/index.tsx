@@ -1,3 +1,4 @@
+import { PersonAdd } from '@material-ui/icons';
 import DeleteSweepOutlinedIcon from '@material-ui/icons/DeleteSweepOutlined';
 import EditOutlinedIcon from '@material-ui/icons/EditOutlined';
 import axios from 'axios';
@@ -53,6 +54,7 @@ const Home: React.FC = () => {
    <Table
       title="Clientes"
       titleButton="NOVO CLIENTE"
+      icon={<PersonAdd/>}
       noData="Oops, Algo Errado"
       dataImport={data}
       loading={loading}
@@ -66,14 +68,15 @@ const Home: React.FC = () => {
             return (
               <div>
                 <Button
-                  color="secondary"
+                  variant="secondary"
+                  
                   onClick={() => handleEdit(client as Client)}
                 >
                   <EditOutlinedIcon />
                   Editar
                 </Button>
                 <Button
-                  color="primary"
+                  variant="danger"
                   onClick={() => handleDelete(client as Client)}
                 >
                   <DeleteSweepOutlinedIcon />

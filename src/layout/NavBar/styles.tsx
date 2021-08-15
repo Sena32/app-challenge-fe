@@ -58,7 +58,7 @@ export const NavRight = styled.nav`
         transition: all .3s;
         cursor: pointer;
         &:hover{
-            color:#410000 !important;
+            color:#08004e !important;
 
         }
         &:link{

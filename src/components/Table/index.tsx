@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { JsxElement } from 'typescript';
 import Button from '../Button';
 import Spinner from '../Spinner';
 import {
@@ -40,6 +41,7 @@ interface PropsTable<T, K extends keyof T> {
   columns?: ColumnIterface<T, K>[];
   link?: string;
   loading?: boolean;
+  icon?: any;
 }
 
 const Table = <T, K extends keyof T>({
@@ -52,6 +54,7 @@ const Table = <T, K extends keyof T>({
   title,
   header,
   link,
+  icon,
 }: PropsTable<T, K>): JSX.Element => {
   const { push } = useHistory();
   console.log(dataImport)
@@ -62,12 +65,14 @@ const Table = <T, K extends keyof T>({
           <Init>
             <h1>{title}</h1>
             {titleButton ? (
-              <Button color='primary' onClick={() => push(`${link}`)} >{titleButton}</Button>
+              <Button color='primary' onClick={() => push(`${link}`)} >
+                {icon && icon}
+                {titleButton}</Button>
             ):
             ''}
             
           </Init>
-          <TableWrapper>
+          <TableWrapper responsive>
             <TbHeadTr>
               {columns.map(col => (
                 <TH>{col.Header}</TH>

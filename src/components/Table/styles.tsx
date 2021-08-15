@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Link as ReactLink } from 'react-router-dom';
-import { Table, TableBody, TableCell, TableRow } from '@material-ui/core';
 import { theme } from '../../styles/global';
+import { Table } from 'react-bootstrap';
 
 interface PropsSpace {
   size: number;
@@ -11,20 +11,20 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: center;
-
   margin-top: 1rem;
   min-height: 80vh;
+  width: 100%;
 `;
 
 export const Init = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   color: ${props=> theme.palette['primary']};
   width: 100%;
-  min-width: 700px;
   margin-bottom: 2rem;
   button {
-    width: 200px;
+    /* width: 200px; */
   }
 `;
 
@@ -33,8 +33,8 @@ export const ContentTable = styled.div`
   flex-direction: column;
 
   padding: 1.8rem;
-  max-width: 68rem;
-  width: 70vw;
+  max-width: 60rem;
+  width: 90vw;
   /* background: #ffffff;
   box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.06);
   border-radius: 4px; */
@@ -50,11 +50,9 @@ export const ContentTable = styled.div`
 export const TableWrapper = styled(Table)`
   border-collapse: collapse;
   border-spacing: 0;
-  width: 100%;
-  min-width: 700px;
 `;
 
-export const TbHeadTr = styled(TableRow)`
+export const TbHeadTr = styled.tr`
   background: rgba(245, 246, 248, 0.7);
   border-radius: 4px 4px 0px 0px;
   width: 100%;
@@ -72,7 +70,7 @@ export const Header = styled.div`
   border-radius: 4px 4px 0px 0px;
 `;
 
-export const TH = styled(TableCell)`
+export const TH = styled.th`
   text-align: left;
   font-family: Roboto;
   font-style: normal;
@@ -132,15 +130,15 @@ export const Row = styled.div`
   padding: 1.25rem;
 `;
 
-export const TR = styled(TableRow)`
+export const TR = styled.tr`
   height: 2rem !important;
   width: 100%;
   border: 1px solid #ebeff2;
   border-radius: 4px;
 `;
 
-export const TBody = styled(TableBody)``;
-export const TD = styled(TableCell)`
+export const TBody = styled.tbody``;
+export const TD = styled.td`
   font-family: Roboto;
   font-style: normal;
   font-weight: 100;

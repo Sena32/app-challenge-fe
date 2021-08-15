@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from 'react';
-import { Alert, Container } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router';
 import BreadCrumb from '../../../components/BreadCrumb';
@@ -10,7 +10,10 @@ import { ApplicationState } from '../../../store';
 import { createRequest, updateRequest } from '../../../store/ducks/clients/actions';
 import { Client } from '../../../store/ducks/clients/types';
 import CreateForm from '../components/CreateForm';
+import states from '../../../assets/states.json'
 import validate from '../components/CreateForm/validate';
+import Axios from 'axios';
+import { Container } from './styles';
 
 interface ParamTypes {
   id: string;
@@ -22,6 +25,8 @@ const Create: React.FC = () => {
   const {clientSelected, loading, error} = useSelector((state: ApplicationState) => state.clients);
   const [message, setMessage] = useState("")
   const [close, setClose] = useState(false)
+  const [cities, setCities] = useState([])
+  const [selectedState, setSelectedState] = useState(true)
   const nav = useHistory();
 
   const onSubmit = data => {
@@ -37,8 +42,8 @@ const Create: React.FC = () => {
       address: {
         address:data.address, 
         number:String(data.number).match(/\d/g).join(""), 
-        city:data.city, 
-        state:data.state, 
+        city:data.city.label, 
+        state:data.state.label, 
         country:data.country, 
         zipCode:String(data.zipCode).match(/\d/g).join(""), 
       } 
@@ -53,8 +58,8 @@ const Create: React.FC = () => {
           id: clientSelected.address.id,
           address:data.address, 
           number:String(data.number).match(/\d/g).join(""), 
-          city:data.city, 
-          state:data.state, 
+          city:data.city.label, 
+          state:data.state.label, 
           country:data.country, 
           zipCode:String(data.zipCode).match(/\d/g).join(""), 
         } 
@@ -74,14 +79,27 @@ const Create: React.FC = () => {
 
 	};
 
+  const getCities = async(state)=>{
+    const response = await Axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${state.value}/municipios`)
+    if(response.status===200){
+      setCities(response.data.map(c=>({value: c.id, label: c.nome})))
+    }
+  }
+
+  const onChange = values=>{
+    if (values.state && values.state.value) {
+			setSelectedState(false)
+      getCities(values.state)
+		}
+  }
 
 	const initialValues = {
     name: id && clientSelected.name,
     phone:id && clientSelected.phone,
     address:id && clientSelected.address.address, 
     number:id && clientSelected.address.number, 
-    city:id && clientSelected.address.city, 
-    state:id && clientSelected.address.state, 
+    city:id && {value: clientSelected.address.city, label: clientSelected.address.city}, 
+    state:id && states.find(state=> state.label===clientSelected.address.state), 
     country:id && clientSelected.address.country, 
     zipCode:id && clientSelected.address.zipCode, 
 	};
@@ -103,21 +121,6 @@ const Create: React.FC = () => {
     {message && close && (
       <Alert variant="danger" onClick={()=>setClose(false)}>{message}</Alert>
     )}
-   {/* <Container>
-
-      <CardWrapper>
-
-        <h1>{id? 'EDITAR CLIENTE' : 'CADASTRAR CLIENTE'}</h1>
-        <form onSubmit={formik.handleSubmit} >
-        <InputCustom name='name' label='Nome' value={formik.values.name} placeholder='NOME' onChange={formik.handleChange} error={Boolean(formik.errors.name)} helperText={formik.errors.name} />
-        <InputCustom name='phone' label='Telefone' value={formik.values.phone} placeholder='Telefone' onChange={formik.handleChange} error={Boolean(formik.errors.phone)} helperText={formik.errors.phone} />
-  
-        <Button color='primary' disabled={!(formik.isValid && formik.dirty && !formik.isSubmitting)}>
-          {formik.isSubmitting ? <Spinner /> : 'Cadastrar'}
-        </Button>
-        </form>
-      </CardWrapper>
-   </Container> */}
 
    <Container>
 
@@ -125,6 +128,10 @@ const Create: React.FC = () => {
         onSubmit={onSubmit}
         loading={loading}
         initialValues={initialValues}
+        states={states}
+        selectedState={selectedState}
+        cities={cities}
+        onChange={onChange}
       />
 		</Container>
    </>

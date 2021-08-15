@@ -19,6 +19,7 @@ interface AuthContextData {
     addUserFacebook(user:User):void;
     signIn(user:User): Promise<any>;
     signOut(): void;
+    verifyToken(token): void
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -33,8 +34,8 @@ export const AuthProvider: React.FC = ({ children }) => {
       api.post('/token/verify', {
         token
       }).then((resp)=>{
-        if(resp){
-          setStatus(resp)
+        if(!resp){
+          signOut()
         }
 
       })
@@ -42,13 +43,6 @@ export const AuthProvider: React.FC = ({ children }) => {
     const addUserFacebook = (user:User)=>{
       setUserFacebook(user as User)
     }
-    useEffect(() => {
-      if (!status) {
-        signOut()
-
-      }
-
-    }, []);
 
     useEffect(() => {
       const storagedUser = localStorage.getItem('@App:user');
@@ -56,8 +50,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   
       if (storagedToken && storagedUser) {
         setUser(JSON.parse(storagedUser));
+      }else{
         signOut()
-        verifyToken(storagedToken)
       }
 
     }, []);
@@ -89,7 +83,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       localStorage.clear()
     }
     return (
-      <AuthContext.Provider value={{ signed: !!user, loading, user, signIn, signOut, addUserFacebook, userFacebook }}>
+      <AuthContext.Provider value={{ signed: !!user, loading, user, signIn, signOut, addUserFacebook, userFacebook, verifyToken }}>
         {loading? (<Container><Spinner/></Container>): children}
       </AuthContext.Provider>
     );

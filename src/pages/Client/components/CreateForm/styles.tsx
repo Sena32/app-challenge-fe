@@ -52,9 +52,4 @@ export const ButtonContainer = styled.div`
     gap: 20px;
     justify-content: flex-end;
     width: 100%;
-    button{
-        width: 200px;
-        background: #000;
-        color: #FFF;
-    }
 `;

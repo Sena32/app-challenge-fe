@@ -1,18 +1,20 @@
-import { Button } from '@material-ui/core';
+import { Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import { theme } from '../../styles/global';
 
 
 export const ButtonComponent = styled(({ color, ...otherProps }) => <Button {...otherProps} />)`
-  height: 3rem;
-  width: 100%;
+  /* height: 3rem; */
+  /* width: 100%; */
+  min-width: 150px;
   font-family: 'DIN Pro Medium';
-  background: ${props => theme.palette[props.color]} !important;
+  /* background: ${props => theme.palette[props.color]} !important; */
   text-align: center;
   letter-spacing: 1.25px;
   text-transform: uppercase;
-
-  color: ${props => props.color === 'primary' ? theme.palette['white']: theme.palette['black']} !important;
+  outline: transparent;
+  border: 0;
+  /* color: ${props => props.color === 'primary' ? theme.palette['white']: theme.palette['black']} !important; */
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(0, 0, 0, 0.12),
     0px 1px 3px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
@@ -24,10 +26,10 @@ export const ButtonComponent = styled(({ color, ...otherProps }) => <Button {...
   }
 
   &:hover {
-    background: ${props => props.color === 'primary' ? theme.palette['primaryHover']: theme.palette['secondaryHover']} !important;
+    /* background: ${props => props.color === 'primary' ? theme.palette['primaryHover']: theme.palette['secondaryHover']} !important; */
   }
   &:disabled {
-    background: #b9b9b9;
-    cursor: not-allowed;
+    /* background: #b9b9b9; */
+    /* cursor: not-allowed; */
   }
 `;

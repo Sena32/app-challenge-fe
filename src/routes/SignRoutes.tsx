@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import AuthContext from '../contexts/auth';
 import Login from '../pages/Login';
@@ -8,7 +8,13 @@ import PrivateRoutes from './PrivateRoutes';
 
 
 const Routes: React.FC = () => {
-  const {signed} = useContext(AuthContext)
+  const {signed, verifyToken} = useContext(AuthContext)
+
+  useEffect(() => {
+    const storagedToken = localStorage.getItem('@App:token');
+      verifyToken(storagedToken)
+
+  }, []);
 
 if(!signed){
     

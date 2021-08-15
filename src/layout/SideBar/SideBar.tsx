@@ -11,7 +11,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useTheme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import { ExpandLess, ExpandMore, HomeOutlined, LibraryBooksOutlined } from '@material-ui/icons';
+import { ExpandLess, ExpandMore, HomeOutlined, PeopleOutline } from '@material-ui/icons';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -25,13 +25,13 @@ import { useStyles } from "./styles";
 
 
 const toMap: { [key: string]: string } = {
-  '/app/clients': 'Livros',
+  '/app/clients': 'Clientes',
   '/app/clients/new': 'Cadastrar',
   '/app': 'Home'
 };
 
 const iconMap: { [key: string]: JSX.Element } = {
-  'book': <LibraryBooksOutlined/>,
+  'book': <PeopleOutline/>,
   'home': <HomeOutlined/>
 };
 

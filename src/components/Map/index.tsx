@@ -12,8 +12,8 @@ interface Local {
 export default function Map({lat, lng}:Local){
     const defaultProps = {
       center: {
-        lat: lat ,
-        lng: lng
+        lat: 7.1377579 ,
+        lng: 34.8480882
       },
       zoom: 15
     };
@@ -22,15 +22,16 @@ export default function Map({lat, lng}:Local){
       // Important! Always set the container height explicitly
       <div style={{ height: '100vh', width: '100%' }}>
         <GoogleMapReact
-        //   bootstrapURLKeys={key}
+          bootstrapURLKeys={key}
           defaultCenter={defaultProps.center}
+          center={{lat: lat, lng: lng}}
           defaultZoom={defaultProps.zoom}
         >
           <Marker
             lat={lat || 7.1377579}
             lng={lng || 34.8480882}
-            text="My Marker"
-            onClick={console.log("olá")}
+            text="Seu Endereço é Aqui :)"
+            onClick={console.log()}
           />
         </GoogleMapReact>
       </div>
